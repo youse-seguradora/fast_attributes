@@ -387,5 +387,14 @@ describe FastAttributes do
 
       expect(class_with_defaults.callable).to eq("callable value")
     end
+
+    it "doesn't use the same instance between multiple instances" do
+      class_with_defaults = ClassWithDefaults.new
+      class_with_defaults.authors << 2
+
+      class_with_defaults2 = ClassWithDefaults.new
+
+      expect(class_with_defaults2.authors).to eq([1, 2, 4])
+    end
   end
 end
