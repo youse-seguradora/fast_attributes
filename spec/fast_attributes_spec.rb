@@ -363,5 +363,26 @@ describe FastAttributes do
         expect(reader.attributes).to eq({'name' => '102', 'age' => 25})
       end
     end
+
+    describe 'option attributes: :accessors' do
+      it 'generates attributes method' do
+        publisher = Publisher.new
+        expect(publisher.attributes).to eq({'name' => nil, 'books' => nil})
+
+        reader = Reader.new
+        expect(reader.attributes).to eq({'name' => nil, 'age' => nil})
+      end
+
+      it "is returns the values of accessors, not the ivars" do
+        klass = AttributesWithAccessors.new(pages: 10, title: 'Something')
+        expect(klass.attributes['pages']).to be(20)
+        expect(klass.attributes['title']).to eq('A Longer Title: Something')
+      end
+
+      it 'is possible to override attributes method' do
+        klass = AttributesWithAccessors.new(pages: 10, title: 'Something')
+        expect(klass.attributes).to eq({'pages' => 20, 'title' => 'A Longer Title: Something', 'color' => 'white'})
+      end
+    end
   end
 end

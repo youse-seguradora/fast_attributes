@@ -113,3 +113,24 @@ class DefaultLenientAttributes
   attribute :rate,      :float
   attribute :active,    :boolean
 end
+
+class AttributesWithAccessors
+  extend FastAttributes
+
+  define_attributes initialize: true, attributes: :accessors do
+    attribute :title, :string
+    attribute :pages, :integer
+  end
+
+  def attributes
+    super.merge('color' => 'white')
+  end
+
+  def pages
+    @pages + 10
+  end
+
+  def title
+    "A Longer Title: #{@title}"
+  end
+end

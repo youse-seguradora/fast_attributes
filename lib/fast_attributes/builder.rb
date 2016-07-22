@@ -27,7 +27,7 @@ module FastAttributes
       end
 
       if @options[:attributes]
-        compile_attributes
+        compile_attributes(@options[:attributes])
       end
 
       include_methods
@@ -68,10 +68,15 @@ module FastAttributes
       EOS
     end
 
-    def compile_attributes
+    def compile_attributes(mode)
       attributes = @attributes.flat_map(&:first)
+      prefix = case mode
+               when :accessors then ''
+               else '@'
+               end
+
       attributes = attributes.map do |attribute|
-        "'#{attribute}' => @#{attribute}"
+        "'#{attribute}' => #{prefix}#{attribute}"
       end
 
       @methods.module_eval <<-EOS, __FILE__, __LINE__ + 1
