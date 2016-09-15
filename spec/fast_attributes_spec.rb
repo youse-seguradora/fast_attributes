@@ -363,6 +363,29 @@ describe FastAttributes do
         expect(reader.attributes).to eq({'name' => '102', 'age' => 25})
       end
     end
+
+    describe 'option attributes: :accessors' do
+      it 'doesn\'t interfere when you don\'t use the option' do
+        klass = AttributesWithoutAccessors.new
+        expect(klass.attributes).to eq({'title' => nil, 'pages' => nil, 'color' => 'white'})
+      end
+
+      it "is returns the values of accessors, not the ivars" do
+        klass = AttributesWithAccessors.new(pages: 10, title: 'Something')
+        expect(klass.attributes['pages']).to be(20)
+        expect(klass.attributes['title']).to eq('A Longer Title: Something')
+      end
+
+      it 'is possible to override attributes method' do
+        klass = AttributesWithAccessors.new(pages: 10, title: 'Something')
+        expect(klass.attributes).to eq({'pages' => 20, 'title' => 'A Longer Title: Something', 'color' => 'white'})
+      end
+
+      it 'works with default attributes' do
+        klass = AttributesWithAccessorsAndDefaults.new
+        expect(klass.attributes).to eq({'pages' => 20, 'title' => 'a title'})
+      end
+    end
   end
 
   describe "default attributes" do

@@ -126,6 +126,30 @@ book.attributes
 {"author" => "Some String"}
 ```
 
+## Attributes via accessors
+
+Sometimes you want `attributes` to return the value of your accessors, rather than the instance variables.
+This is slower than using ivars directly, so use `attributes: :accessors`:
+
+```ruby
+class Book
+  extend FastAttributes
+
+  define_attributes attributes: :accessors do
+    attribute :author, String
+  end
+
+  def author
+    @author || "No author set"
+  end
+end
+
+book = Book.new
+book.attributes
+{"author" => "No author set"}
+```
+
+
 ## Custom Type
 It's easy to add a custom attribute type.
 ```ruby
