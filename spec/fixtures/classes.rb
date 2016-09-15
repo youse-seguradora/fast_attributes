@@ -114,6 +114,23 @@ class DefaultLenientAttributes
   attribute :active,    :boolean
 end
 
+class AttributesWithoutAccessors
+  extend FastAttributes
+
+  define_attributes initialize: true, attributes: true do
+    attribute :title, :string
+    attribute :pages, :integer
+  end
+
+  def title
+    "Some title"
+  end
+
+  def attributes
+    super.merge('color' => 'white')
+  end
+end
+
 class AttributesWithAccessors
   extend FastAttributes
 
@@ -132,5 +149,16 @@ class AttributesWithAccessors
 
   def title
     "A Longer Title: #{@title}"
+  end
+end
+
+class ClassWithDefaults
+  extend FastAttributes
+
+  define_attributes initialize: true, attributes: true do
+    attribute :title, String, default: "a title"
+    attribute :pages, Integer, default: 10
+    attribute :authors, Array, default: [1, 2, 4]
+    attribute :callable, String, default: lambda { "callable value" }
   end
 end

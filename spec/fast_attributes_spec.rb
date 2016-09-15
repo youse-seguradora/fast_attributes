@@ -365,12 +365,9 @@ describe FastAttributes do
     end
 
     describe 'option attributes: :accessors' do
-      it 'generates attributes method' do
-        publisher = Publisher.new
-        expect(publisher.attributes).to eq({'name' => nil, 'books' => nil})
-
-        reader = Reader.new
-        expect(reader.attributes).to eq({'name' => nil, 'age' => nil})
+      it 'doesn\'t interfere when you don\'t use the option' do
+        klass = AttributesWithoutAccessors.new
+        expect(klass.attributes).to eq({'title' => nil, 'pages' => nil, 'color' => 'white'})
       end
 
       it "is returns the values of accessors, not the ivars" do
@@ -383,6 +380,39 @@ describe FastAttributes do
         klass = AttributesWithAccessors.new(pages: 10, title: 'Something')
         expect(klass.attributes).to eq({'pages' => 20, 'title' => 'A Longer Title: Something', 'color' => 'white'})
       end
+    end
+  end
+
+  describe "default attributes" do
+    it "sets the default values" do
+      class_with_defaults = ClassWithDefaults.new
+
+      expect(class_with_defaults.title).to eq('a title')
+      expect(class_with_defaults.pages).to be(10)
+      expect(class_with_defaults.authors).to eq([1, 2, 4])
+    end
+
+    it "allows you to override default values" do
+      class_with_defaults = ClassWithDefaults.new(title: 'Something', authors: [1, 5, 7])
+
+      expect(class_with_defaults.title).to eq('Something')
+      expect(class_with_defaults.pages).to be(10)
+      expect(class_with_defaults.authors).to eq([1, 5, 7])
+    end
+
+    it "allows callable default values" do
+      class_with_defaults = ClassWithDefaults.new
+
+      expect(class_with_defaults.callable).to eq("callable value")
+    end
+
+    it "doesn't use the same instance between multiple instances" do
+      class_with_defaults = ClassWithDefaults.new
+      class_with_defaults.authors << 2
+
+      class_with_defaults2 = ClassWithDefaults.new
+
+      expect(class_with_defaults2.authors).to eq([1, 2, 4])
     end
   end
 end
