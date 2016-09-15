@@ -380,6 +380,11 @@ describe FastAttributes do
         klass = AttributesWithAccessors.new(pages: 10, title: 'Something')
         expect(klass.attributes).to eq({'pages' => 20, 'title' => 'A Longer Title: Something', 'color' => 'white'})
       end
+
+      it 'works with default attributes' do
+        klass = AttributesWithAccessorsAndDefaults.new
+        expect(klass.attributes).to eq({'pages' => 20, 'title' => 'a title'})
+      end
     end
   end
 

@@ -152,6 +152,19 @@ class AttributesWithAccessors
   end
 end
 
+class AttributesWithAccessorsAndDefaults
+  extend FastAttributes
+
+  define_attributes initialize: true, attributes: :accessors do
+    attribute :title, String, default: "a title"
+    attribute :pages, Integer, default: 10
+  end
+
+  def pages
+    @pages + 10
+  end
+end
+
 class ClassWithDefaults
   extend FastAttributes
 
