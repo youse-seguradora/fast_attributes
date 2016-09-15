@@ -1,3 +1,23 @@
+**0.9.0 (September 15, 2016)**
+* Attributes via accessors [Phil Schalm](https://github.com/pnomolos)
+```ruby
+class Book
+  extend FastAttributes
+
+  define_attributes attributes: :accessors do
+    attribute :author, String
+  end
+
+  def author
+    @author || "No author set"
+  end
+end
+
+book = Book.new
+book.attributes
+{"author" => "No author set"}
+```
+
 **0.8.0 (September 15, 2016)**
 * Support of default values [Phil Schalm](https://github.com/pnomolos)
 ```ruby
