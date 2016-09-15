@@ -1,3 +1,16 @@
+**0.8.0 (September 15, 2016)**
+* Support of default values [Phil Schalm](https://github.com/pnomolos)
+```ruby
+class Product
+  extend FastAttributes
+
+  define_attributes initialize: true, attributes: true do
+    attribute :title, String, default: "Book"
+    attribute :price, Float, default: 10
+  end
+end
+```
+
 **0.7.0 (August 31, 2014)**
 * Support `boolean` data type as a lenient type.
 ```ruby

@@ -108,7 +108,7 @@ book.attributes
   #<DateTime: 1937-08-20T12:35:00+00:00 ((2428766j,45300s,0n),+0s,2299161j)>}
 ```
 
-## Defaut values
+## Default values
 
 Requires `define_attributes` to be used with `initialize: true` (this is where the default values are set):
 
