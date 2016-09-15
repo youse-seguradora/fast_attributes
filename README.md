@@ -107,6 +107,25 @@ book.attributes
  "finished"=>
   #<DateTime: 1937-08-20T12:35:00+00:00 ((2428766j,45300s,0n),+0s,2299161j)>}
 ```
+
+## Defaut values
+
+Requires `define_attributes` to be used with `initialize: true` (this is where the default values are set):
+
+```ruby
+class Book
+  extend FastAttributes
+
+  define_attributes initialize: true do
+    attribute :author, String, default: "Some String"
+  end
+end
+
+book = Book.new
+book.attributes
+{"author" => "Some String"}
+```
+
 ## Custom Type
 It's easy to add a custom attribute type.
 ```ruby
@@ -123,7 +142,7 @@ book.author
 # => #<OpenStruct name="Rowling">
 ```
 
-Notice, that second parameter is a string. It's necessary because this code is compiled into a ruby method in runtime. The placeholder `%s` represents a value which this method accepts. 
+Notice, that second parameter is a string. It's necessary because this code is compiled into a ruby method in runtime. The placeholder `%s` represents a value which this method accepts.
 
 It's possible to refer to a placeholder several times.
 ```ruby
@@ -183,7 +202,7 @@ FastAttributes.type_cast String do     # begin
                                        #   case String
   from 'nil',    to: 'nil'             #   when nil    then nil
   from 'String', to: '%s'              #   when String then %s
-  otherwise 'String(%s)'               #   else String(%s) 
+  otherwise 'String(%s)'               #   else String(%s)
                                        #   end
   on_error 'TypeError', act: 'nil'     # rescue TypeError => e
                                        #   nil
@@ -210,7 +229,7 @@ end
 order = Order.new
 order.terms_of_service = 'yes'
 order.terms_of_service
-# => true 
+# => true
 order.terms_of_service = 'no'
 order.terms_of_service
 # => false
