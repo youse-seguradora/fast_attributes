@@ -1,12 +1,9 @@
-# Some code borrowed from
-# https://github.com/jetrockets/attrio/blob/master/lib/attrio/default_value/clonable.rb
-
 module FastAttributes
   class << self
     SINGLETON_CLASSES = [::NilClass, ::TrueClass, ::FalseClass, ::Numeric,  ::Symbol].freeze
 
     def default_attributes(klass)
-      return {} unless @default_attributes[klass]
+      return {} unless (@default_attributes || {})[klass]
       @default_attributes[klass].each_with_object({}) do |(attribute, value), memo|
         memo[attribute] = if value.respond_to?(:call)
                             value.call

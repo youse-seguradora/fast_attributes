@@ -27,6 +27,7 @@ module FastAttributes
     def compile!
       compile_getter
       compile_setter
+      set_defaults
 
       if @options[:initialize]
         compile_initialize
@@ -37,7 +38,6 @@ module FastAttributes
       end
 
       include_methods
-      set_defaults
     end
 
     private
@@ -66,9 +66,15 @@ module FastAttributes
     end
 
     def compile_initialize
+      attribute_string = if FastAttributes.default_attributes(@klass).empty?
+                           "attributes"
+                         else
+                           "FastAttributes.default_attributes(self.class).merge(attributes)"
+                         end
+
       @methods.module_eval <<-EOS, __FILE__, __LINE__ + 1
         def initialize(attributes = {})
-          FastAttributes.default_attributes(self.class).merge(attributes).each do |name, value|
+          #{attribute_string}.each do |name, value|
             public_send("\#{name}=", value)
           end
         end
