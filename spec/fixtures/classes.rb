@@ -185,7 +185,19 @@ class InviteForm
   end
 end
 
+class Address
+  extend FastAttributes
+
+  define_attributes initialize: true, attributes: true do
+    attribute :address,     String
+    attribute :locality,    String
+    attribute :region,      String
+    attribute :postal_code, String
+  end
+end
+
 FastAttributes.set_type_casting(InviteForm, 'InviteForm.new(%s)')
+FastAttributes.set_type_casting(Address, 'Address.new(%s)')
 
 class ClassWithCollectionMemberAttribute
   extend FastAttributes
@@ -195,5 +207,6 @@ class ClassWithCollectionMemberAttribute
     attribute :page_numbers, Array[Integer]
     attribute :words, Array[String]
     attribute :invites, Array[InviteForm]
+    attribute :addresses, Set[Address]
   end
 end

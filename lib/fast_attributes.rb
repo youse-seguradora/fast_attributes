@@ -86,6 +86,18 @@ module FastAttributes
     EOS
   end
 
+  type_cast TypeCasting::SET_KEY do
+    from 'nil', to: 'nil'
+    otherwise <<-EOS
+      type = Array(self.class.attribute_set[:%a][:type])[0]
+      type_cast = FastAttributes.get_type_casting(type)
+
+      coercion = type_cast.compile_lambda(:%a)
+      items = Array(%s).map { |item| coercion.call(item) }
+      Set.new(items)
+    EOS
+  end
+
   type_cast :boolean do
     otherwise <<-EOS
       if FastAttributes::TRUE_VALUES.include?(%s)

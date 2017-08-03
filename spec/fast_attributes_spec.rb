@@ -429,6 +429,14 @@ describe FastAttributes do
         { name: 'Igor', email: 'igor@example.com' }
       ]
     end
+    let(:address_hash) do
+      {
+        address: '123 6th St. Melbourne, FL 32904',
+        locality: 'Melbourne',
+        region: 'FL',
+        postal_code: '32904'
+      }
+    end
 
     it 'must parse integer value' do
       instance.page_numbers = '1'
@@ -460,6 +468,16 @@ describe FastAttributes do
 
       expect(instance.invites[1].name).to eq invites[1][:name]
       expect(instance.invites[1].email).to eq invites[1][:email]
+    end
+
+    it 'must parse set values' do
+      instance.addresses = [address_hash]
+      item = instance.addresses.to_a[0]
+
+      expect(instance.addresses.size).to eq 1
+      expect(item.is_a?(Address)).to eq true
+      expect(item.address).to eq address_hash[:address]
+      expect(item.postal_code).to eq address_hash[:postal_code]
     end
   end
 end
