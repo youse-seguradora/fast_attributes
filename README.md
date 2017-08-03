@@ -149,6 +149,18 @@ book.attributes
 {"author" => "No author set"}
 ```
 
+## Collection Member Coercions
+
+```
+class Book
+  include Virtus.model
+
+  attribute :page_numbers, Array[Integer]
+end
+
+book = Book.new(:page_numbers => %w[1 2 3])
+book.page_numbers # => [1, 2, 3]
+```
 
 ## Custom Type
 It's easy to add a custom attribute type.
