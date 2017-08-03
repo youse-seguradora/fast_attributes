@@ -75,7 +75,7 @@ module FastAttributes
   set_type_casting DateTime,   'DateTime.parse(%s)'
   set_type_casting BigDecimal, 'Float(%s);BigDecimal(%s.to_s)'
 
-  type_cast :collection_member do
+  type_cast TypeCasting::ARRAY_KEY do
     from 'nil', to: 'nil'
     otherwise <<-EOS
       type = Array(self.class.attribute_set[:%a][:type])[0]

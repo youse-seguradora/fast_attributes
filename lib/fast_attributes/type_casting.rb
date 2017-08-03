@@ -2,6 +2,8 @@ module FastAttributes
   # Store a type casting definitions
   #
   class TypeCasting < Hash
+    ARRAY_KEY = :collection_member
+
     def [](key)
       symbol = normalize_klass_for_type_name(key)
       super(key) || super(symbol)
@@ -31,7 +33,7 @@ module FastAttributes
     def normalize_klass_for_type_name(klass)
       case klass
       when Symbol then klass
-      when Array then :collection_member
+      when Array then ARRAY_KEY
       when String then underscore(klass)
       else
         underscore(klass.name)
