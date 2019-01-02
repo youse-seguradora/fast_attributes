@@ -149,6 +149,24 @@ book.attributes
 {"author" => "No author set"}
 ```
 
+## Ignoring not defined attributes
+
+When try to initialize an object with a not defined attribute, it will raise `NoMethodError` error.
+To bypass the error and ignore the attribute when initialize, you can use `ignores_undefined: true`.
+
+```ruby
+class Book
+  extend FastAttributes
+
+  define_attributes initialize: true, ignores_undefined: true do
+    attribute :author, String
+  end
+end
+
+book = Book.new(foo: 'bar')
+#<Book: author=nil>
+```
+
 ## Collection Member Coercions
 
 ```

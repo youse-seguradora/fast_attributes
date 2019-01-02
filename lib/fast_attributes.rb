@@ -8,8 +8,8 @@ require 'fast_attributes/type_casting'
 require 'fast_attributes/default_attributes'
 
 module FastAttributes
-  TRUE_VALUES  = [true, 1, '1', 't', 'T', 'true', 'TRUE', 'on', 'ON'].freeze
-  FALSE_VALUES = [false, 0, '0', 'f', 'F', 'false', 'FALSE', 'off', 'OFF'].freeze
+  TRUE_VALUES  = { true => nil, 1 => nil, '1' => nil, 't' => nil, 'T' => nil, 'true' => nil, 'TRUE' => nil, 'on' => nil, 'ON' => nil }.freeze
+  FALSE_VALUES = { false => nil, 0 => nil, '0' => nil, 'f' => nil, 'F' => nil, 'false' => nil, 'FALSE' => nil, 'off' => nil, 'OFF' => nil }.freeze
 
   class << self
     def type_casting
@@ -100,9 +100,9 @@ module FastAttributes
 
   type_cast :boolean do
     otherwise <<-EOS
-      if FastAttributes::TRUE_VALUES.include?(%s)
+      if FastAttributes::TRUE_VALUES.has_key?(%s)
         true
-      elsif FastAttributes::FALSE_VALUES.include?(%s)
+      elsif FastAttributes::FALSE_VALUES.has_key?(%s)
         false
       elsif %s.nil?
         nil

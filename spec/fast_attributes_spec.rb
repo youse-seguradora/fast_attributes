@@ -388,6 +388,14 @@ describe FastAttributes do
     end
   end
 
+  describe 'option attributes: :ignores_undefined' do
+    it 'does not raise NoMethodError when initialize' do
+      car = Car.new(foo: 'bar', name: '206')
+      expect(car.name).to eq('206')
+      expect { car.foo }.to raise_error NoMethodError
+    end
+  end
+
   describe "default attributes" do
     it "sets the default values" do
       class_with_defaults = ClassWithDefaults.new
