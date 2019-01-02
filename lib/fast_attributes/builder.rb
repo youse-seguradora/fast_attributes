@@ -75,7 +75,11 @@ module FastAttributes
       @methods.module_eval <<-EOS, __FILE__, __LINE__ + 1
         def initialize(attributes = {})
           #{attribute_string}.each do |name, value|
-            public_send("\#{name}=", value)
+            begin
+              public_send("\#{name}=", value)
+            rescue NoMethodError => error
+              raise error if #{!@options[:ignore_undefined]}
+            end
           end
         end
       EOS

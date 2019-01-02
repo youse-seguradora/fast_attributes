@@ -38,6 +38,14 @@ class Reader
   end
 end
 
+class Car
+  extend FastAttributes
+
+  define_attributes initialize: true, attributes: true, ignore_undefined: true do
+    attribute :name, String
+  end
+end
+
 class Toy
   extend FastAttributes
 
