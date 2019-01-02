@@ -1,5 +1,6 @@
 require 'bigdecimal'
 require 'date'
+require 'set'
 require 'time'
 require 'fast_attributes/version'
 require 'fast_attributes/builder'
